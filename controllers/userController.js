@@ -1,11 +1,11 @@
+import bcrypt from 'bcryptjs';
+
 import User from '../models/userModel.js';
+import { createTokenForLogin } from '../token/create.js';
 
 async function createUser(req, res) {
     try {
-        console.log(req.body)
-
         const { name, surname, email, password } = req.body;
-
         const user = await User.create({
             name,
             surname,
@@ -68,15 +68,14 @@ async function loginUser(req, res) {
     if (await bcrypt.compare(password, user.password)) {
         let token = await createTokenForLogin(user._id);
 
-        res.cookie("jwt", token, {
+        res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: 'None',
         });
 
         res.status(200).json({
-            success: true,
-            userrole: user.userrole
+            success: true
         });
 
     } else {

@@ -6,8 +6,12 @@ import {
     getAccountPage
 } from '../controllers/pageController.js';
 
+import {
+    authenticateForPage
+} from '../middlewares/authMiddleWare.js';
+
 router.route('/')
-    .get(getIndexPage);
+    .get(authenticateForPage, getIndexPage);
 
 router.route('/account')
     .get(getAccountPage);
