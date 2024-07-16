@@ -4,11 +4,11 @@ function loginForm() {
         <form id="loginform">
 
             <div class="form-outline mb-4">
-                <label class="form-label" for="L_username">Your Email</label>
-                <input type="text" id="L_email" name="email"
+                <label class="form-label" for="L_username">Your Username</label>
+                <input type="text" id="L_username" name="username"
                     class="form-control form-control-lg" />
 
-                <span id="L_emailerror" class="error"></span>
+                <span id="L_usernameerror" class="error"></span>
             </div>
 
             <div class="form-outline mb-4">
@@ -56,6 +56,14 @@ function signupForm() {
             </div>
 
             <div class="form-outline mb-4">
+                <label class="form-label" for="S_username">Your Username</label>
+                <input type="text" id="S_username" name="username"
+                    class="form-control form-control-lg" />
+
+                <span id="S_usernameerror" class="error"></span>
+            </div>
+
+            <div class="form-outline mb-4">
                 <label class="form-label" for="S_email">Your Email</label>
                 <input type="text" id="S_email" name="email"
                     class="form-control form-control-lg" />
@@ -91,7 +99,7 @@ loginForm();
 async function signupSbmt(event) {
     event.preventDefault();
     
-    const keys = ["S_name", "S_surname", "S_email", "S_password"];
+    const keys = ["S_name", "S_surname","S_username", "S_email", "S_password"];
 
     keys.forEach(key => {
         document.getElementById(key).style.borderColor = "#ced4da";
@@ -109,6 +117,7 @@ async function signupSbmt(event) {
         body: JSON.stringify({
             name: formData.get("name"),
             surname: formData.get("surname"),
+            username: formData.get("username"),
             email: formData.get("email"),
             password: formData.get("password"),
         })
@@ -129,7 +138,7 @@ async function signupSbmt(event) {
 async function loginSbmt(event) {
     event.preventDefault();
     
-    const keys = ["L_email", "L_password"];
+    const keys = ["L_username", "L_password"];
 
     keys.forEach(key => {
         document.getElementById(key).style.borderColor = "#ced4da";
@@ -145,7 +154,7 @@ async function loginSbmt(event) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            email: formData.get("email"),
+            username: formData.get("username"),
             password: formData.get("password"),
         })
     });

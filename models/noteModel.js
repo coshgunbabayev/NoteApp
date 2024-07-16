@@ -11,12 +11,23 @@ const noteSchema = new Schema({
 
     title: {
         type: String,
-        required: [true, 'title is required'],
+        required: [true, 'title area is required'],
     },
 
     content: {
         type: String,
-        required: [true, 'content is required'],
+        required: [true, 'content area is required'],
+    },
+
+    visibility: {
+        type: String,
+        required: [true, 'visibility area is required'],
+        validate: [
+            function(value){
+                return ['public', 'private'].includes(value);
+            },
+            'this is not a valid visibility option'
+        ]
     },
 
     date: {

@@ -14,6 +14,18 @@ const userSchema = new Schema({
         required: [true, 'surname area is required'],
     },
 
+    username: {
+        type: String,
+        required: [true, 'username area is required'],
+        unique: true,
+        validate: [
+            function (value) {
+                return validator.isAlphanumeric(value) && /^\S*$/.test(value);
+            },
+            'uername must be alphanumeric and should not contain spaces.'
+        ]
+    },
+
     email: {
         type: String,
         required: [true, 'email area is required'],
@@ -25,6 +37,17 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'password area is required'],
         minLength: [8, 'password is not a valid  in length, at least 8 characters'],
+        validate: [
+            function (value) {
+                const hasNumber = /\d/;
+                const hasLowerCase = /[a-z]/;
+                const hasUpperCase = /[A-Z]/;
+                const noSpaces = /^\S*$/;
+
+                return hasNumber.test(value) && hasLowerCase.test(value) && hasUpperCase.test(value) && noSpaces.test(value);
+            },
+            'invalid password. Password must contain at least one number, one lowercase letter, one uppercase letter, and should not contain spaces.'
+        ]
     },
 });
 

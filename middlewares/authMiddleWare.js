@@ -49,7 +49,7 @@ async function authenticateForPage(req, res, next) {
                 return res.redirect('/account');
             };
 
-            req.user = user;
+            res.locals.user = user;
             next();
         });
     } else {

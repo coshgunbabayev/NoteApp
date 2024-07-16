@@ -29,6 +29,20 @@
                             <span id="contenterror" class="error"></span>
                         </div>
 
+                        <div class="form-outline mb-4">
+                            <label class="form-label">Visibility</label><br>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="public" name="visibility" value="public" class="form-check-input" />
+                                <label class="form-check-label" for="public">Public</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="private" name="visibility" value="private" class="form-check-input" />
+                                <label class="form-check-label" for="private">Private</label>
+                            </div>
+                            <br>
+                            <span id="visibilityerror" class="error"></span>
+                        </div>
+
                         <button type="submit" onclick="event.preventDefault(); addSbmt()" class="btn btn-primary">
                             add
                         </button>
@@ -41,6 +55,7 @@
 
             <%- include("partials/mainclosure") %>
 
+                <script src="/js/modules/note.js"></script>
                 <script src="/js/index.js"></script>
                 <script src="/js/add.js"></script>
 </body>

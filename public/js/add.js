@@ -1,8 +1,10 @@
 async function addSbmt() {
-    const keys = ['title', 'content'];
+    const keys = ['title', 'content', 'visibility'];
 
     keys.forEach(key => {
-        document.getElementById(key).style.borderColor = "#ced4da";
+        if (key !== 'visibility') {
+            document.getElementById(key).style.borderColor = "#ced4da";
+        };
         document.getElementById(`${key}error`).innerText = "";
     });
 
@@ -16,17 +18,22 @@ async function addSbmt() {
         },
         body: JSON.stringify({
             title: formData.get('title'),
-            content: formData.get('content')
+            content: formData.get('content'),
+            visibility: formData.get('visibility')
         })
     });
 
-    res = await res.json()
+    res = await res.json();
+
+    console.log(res);
 
     if (res.success) {
         window.location.reload();
     } else {
         Object.keys(res.errors).forEach(key => {
-            document.getElementById(`${key}`).style.borderColor = "rgb(255, 0, 0)";
+            if (key !== 'visibility') {
+                document.getElementById(`${key}`).style.borderColor = "rgb(255, 0, 0)";
+            }
             document.getElementById(`${key}error`).innerText = res.errors[key];
         });
     };

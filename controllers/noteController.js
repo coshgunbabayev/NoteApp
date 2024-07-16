@@ -1,20 +1,22 @@
 import Note from '../models/noteModel.js';
 
 async function getNotes(req, res) {
-    const notes = await Note.find({ user: req.user._id });
+    const notes = await Note.find({ visibility: 'public' });
     res.status(200).json({
         success: true,
         notes
     });
 };
 
-async function  createNote(req, res) {
+async function createNote(req, res) {
     try {
-        const { title, content } = req.body;
+        console.log(req.body);
+        const { title, content, visibility } = req.body;
         const note = await Note.create({
             user: req.user._id,
             title,
-            content
+            content,
+            visibility
         });
 
         res.status(201).json({

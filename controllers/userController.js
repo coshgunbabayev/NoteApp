@@ -5,10 +5,11 @@ import { createTokenForLogin } from '../token/create.js';
 
 async function createUser(req, res) {
     try {
-        const { name, surname, email, password } = req.body;
+        const { name, surname, username, email, password } = req.body;
         const user = await User.create({
             name,
             surname,
+            username,
             email,
             password
         });
@@ -26,6 +27,10 @@ async function createUser(req, res) {
         };
 
         if (err.name === "MongoServerError" && err.code === 11000) {
+            if (err.keyPattern.username) {
+                errors.username = 'username is used, try other username';
+            };
+
             if (err.keyPattern.email) {
                 errors.email = 'email is used, try other email';
             };
@@ -39,13 +44,13 @@ async function createUser(req, res) {
 };
 
 async function loginUser(req, res) {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
     let errors = new Object();
 
-    if (!Boolean(email) || !Boolean(password)) {
-        if (!Boolean(email)) {
-            errors.email = 'email area is required';
+    if (!Boolean(username) || !Boolean(password)) {
+        if (!Boolean(username)) {
+            errors.username = 'username area is required';
         };
 
         if (!Boolean(password)) {
@@ -61,7 +66,7 @@ async function loginUser(req, res) {
     if (!user) {
         return res.status(400).json({
             success: false,
-            errors: { email: 'email is incorrent' }
+            errors: { username: 'username is incorrent' }
         });
     };
 
