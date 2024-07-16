@@ -12,7 +12,7 @@ async function authenticateForApi(req, res, next) {
                     success: false,
                     message: 'User not authenticated'
                 });
-            }
+            };
 
             const user = await User.findById(decoded.userId).select("-password");
 

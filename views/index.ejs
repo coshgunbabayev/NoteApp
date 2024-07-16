@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <%- include("partials/headtags") %>
+        <title>Home</title>
 </head>
+
 <body>
-    
+    <%- include("partials/navbar") %>
+
+        <%- include("partials/mainopening") %>
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="card-title">Add note</h4>
+                    <form id="noteform">
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="title">Title</label>
+                            <input type="text" id="title" name="title" class="form-control form-control-lg" />
+                            <span id="titleerror" class="error"></span>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="content">Content</label>
+                            <input type="text" id="content" name="content" class="form-control form-control-lg" />
+                            <span id="contenterror" class="error"></span>
+                        </div>
+
+                        <button type="submit" onclick="event.preventDefault(); addSbmt()" class="btn btn-primary">
+                            add
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+
+            <div id="notes"></div>
+
+            <%- include("partials/mainclosure") %>
+
+                <script src="/js/index.js"></script>
+                <script src="/js/add.js"></script>
 </body>
+
 </html>
