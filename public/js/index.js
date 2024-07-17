@@ -10,6 +10,8 @@ async function getNotes() {
 
     res = await res.json();
 
+    console.log(res.notes);
+
     if (res.success) {
         if (res.notes.length) {
             res.notes.reverse();

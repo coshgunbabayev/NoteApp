@@ -1,7 +1,15 @@
 import Note from '../models/noteModel.js';
 
 async function getNotes(req, res) {
-    const notes = await Note.find({ visibility: 'public' });
+    let notes = await Note.find({ visibility: 'public' })
+        .populate('user', '-_id -password -__v -email');
+
+    notes = notes.map(note => {
+        const noteObj = note.toObject();
+        noteObj.isOwner = note.user.username === req.user.username;
+        return noteObj;
+    });
+
     res.status(200).json({
         success: true,
         notes
