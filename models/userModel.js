@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Schema } from 'mongoose';
+import { ObjectId } from 'mongodb';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 
@@ -49,6 +50,20 @@ const userSchema = new Schema({
             'invalid password. Password must contain at least one number, one lowercase letter, one uppercase letter, and should not contain spaces.'
         ]
     },
+
+    following: [
+        {
+            type: ObjectId,
+            ref: 'User'
+        }
+    ],
+
+    followers: [
+        {
+            type: ObjectId,
+            ref: 'User'
+        }
+    ],
 });
 
 userSchema.pre("save", function (next) {

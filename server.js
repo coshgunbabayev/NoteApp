@@ -30,7 +30,6 @@ import pageRoute from './routes/pageRoute.js';
 import userRoute from './routes/userRoute.js';
 import noteRoute from './routes/noteRoute.js';
 
-app.use('*', notify);
-app.use('/', pageRoute);
-app.use('/api/user', userRoute);
-app.use('/api/note', noteRoute);
+app.use('/',notify, pageRoute);
+app.use('/api/user',notify, userRoute);
+app.use('/api/note',notify, noteRoute);

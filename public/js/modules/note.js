@@ -19,7 +19,14 @@ async function accommodateNotes(tag, notes) {
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">${note.title}</h4>
+                    <h4 class="card-title" style="display: inline-block;">${note.title}</h4>
+
+                    <a href="/user/${note.user.username}">
+                        <h6 class="card-subtitle text-muted"
+                        style="display: inline-block;">
+                        by ${note.user.username}
+                        </h6>
+                    </a>
 
                     <p class="card-text">${note.content}</p>
 

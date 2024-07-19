@@ -3,7 +3,8 @@ const router = new Router();
 
 import {
     getIndexPage,
-    getAccountPage
+    getAccountPage,
+    getUserPage
 } from '../controllers/pageController.js';
 
 import {
@@ -15,5 +16,8 @@ router.route('/')
 
 router.route('/account')
     .get(getAccountPage);
+
+router.route('/user/:username')
+    .get(authenticateForPage, getUserPage);
 
 export default router;

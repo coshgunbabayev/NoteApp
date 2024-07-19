@@ -1,0 +1,186 @@
+const username = document.getElementById("username").innerText.trim();
+const userDetails = document.getElementById("userdetails");
+const notes = document.getElementById("notes");
+
+async function getUserDetails() {
+    function setButtons(user) {
+        if (user.isMatch) {
+            return '';
+        };
+
+        function removeFollowerButton(user) {
+            if (!user.isFollowing) {
+                return '';
+            };
+            return `
+                <button type="button" class="btn btn-primary btn-sm" onclick="remove('${user.username}')">Remove follower</button>
+            `;
+        };
+
+        function followButtons(user) {
+            if (user.isFollowers) {
+                return `
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="unfollow('${user.username}')">Unfollow</button>
+                `;
+            };
+            return `
+                <button type="button" class="btn btn-primary btn-sm" onclick="follow('${user.username}')">Follow</button>
+            `;
+        };
+
+
+        return `
+            <div class="justify-content-between align-items-center">
+                ${removeFollowerButton(user)}
+                ${followButtons(user)}
+            </div>
+        `;
+    };
+
+    let res = await fetch(`/api/user/${username}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+
+    res = await res.json();
+
+    if (res.success) {
+        const user = res.user;
+
+        userDetails.innerHTML = `
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="card-title">
+                        ${user.name} ${user.surname}
+                    </h4>
+
+                    <h6 class="card-subtitle text-muted">
+                        @${user.username}
+                    </h6>
+
+                    <br>
+
+                    ${setButtons(user)}
+                
+                </div>
+            </div>
+        `;
+
+        getUserNotes();
+
+    } else if (res.message) {
+        userDetails.innerHTML = `
+            <div class="card">
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        ${res.message}
+                    </h5>
+
+                </div>
+            </div>
+        `;
+    };
+
+}; getUserDetails();
+
+async function follow(username) {
+    let res = await fetch(`/api/user/${username}/follow`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+
+    res = await res.json();
+
+    if (res.success) {
+        getUserDetails();
+    } else if (res.message) {
+        alert(res.message);
+    };
+};
+
+async function unfollow(username){
+    let res = await fetch(`/api/user/${username}/unfollow`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+
+    res = await res.json();
+
+    if (res.success) {
+        getUserDetails();
+    } else if (res.message) {
+        alert(res.message);
+    };
+};
+
+async function remove(username) {
+    let res = await fetch(`/api/user/${username}/remove`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+
+    res = await res.json();
+
+    if (res.success) {
+        getUserDetails();
+    } else if (res.message) {
+        alert(res.message);
+    };
+};
+
+async function getUserNotes() {
+    let res = await fetch(`/api/user/${username}/notes`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+
+    res = await res.json();
+
+    if (res.success) {
+        if (res.notes.length) {
+            res.notes.reverse();
+            accommodateNotes(notes, res.notes);
+        } else {
+            notes.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+
+                        <p class="card-title">
+                            Not found.
+                        </p>
+
+                    </div>
+                </div>
+            `;
+        };
+    };
+};
+
+async function deleteNote(id) {
+    let res = await fetch(`/api/note/${id}`, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+
+    res = await res.json();
+
+    if (res.success) {
+        getUserNotes();
+    } else if (res.message) {
+        alert(res.message);
+    };
+};
