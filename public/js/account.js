@@ -1,5 +1,9 @@
 function loginForm() {
     document.getElementById("form").innerHTML = `
+        <div class="text-center mb-4">
+            <img src="/image/main-logo.png" class="img-fluid" style="max-width: 150px;">
+        </div>
+
         <h2 class="text-uppercase text-center mb-5" >Login</h2>
         <form id="loginform">
 
@@ -37,6 +41,10 @@ function loginForm() {
 
 function signupForm() {
     document.getElementById("form").innerHTML = `
+        <div class="text-center mb-4">
+            <img src="/image/main-logo.png" class="img-fluid" style="max-width: 150px;">
+        </div>
+
         <h2 class="text-uppercase text-center mb-5" >Create an account</h2>
         <form id="signupform">
 
