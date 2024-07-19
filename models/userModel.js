@@ -38,17 +38,6 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'password area is required'],
         minLength: [8, 'password is not a valid  in length, at least 8 characters'],
-        validate: [
-            function (value) {
-                const hasNumber = /\d/;
-                const hasLowerCase = /[a-z]/;
-                const hasUpperCase = /[A-Z]/;
-                const noSpaces = /^\S*$/;
-
-                return hasNumber.test(value) && hasLowerCase.test(value) && hasUpperCase.test(value) && noSpaces.test(value);
-            },
-            'invalid password. Password must contain at least one number, one lowercase letter, one uppercase letter, and should not contain spaces.'
-        ]
     },
 
     following: [
