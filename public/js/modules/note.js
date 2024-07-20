@@ -17,10 +17,10 @@ async function accommodateNotes(tag, notes) {
         if (res.success) {
             return res.isLiked ?
                 `
-                <button type="button" class="btn btn-secondary btn-sm" onclick="unlikeNote('${note._id}')">Unlike</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="event.preventDefault(); unlikeNote('${note._id}')">Unlike</button>
                 ` :
                 `
-                <button type="button" class="btn btn-primary btn-sm" onclick="likeNote('${note._id}')">Like</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="event.preventDefault(); likeNote('${note._id}')">Like</button>
                 `;
         } else if (res.message) {
             alert(res.message);
@@ -31,40 +31,46 @@ async function accommodateNotes(tag, notes) {
     function owner(note) {
         return note.isOwner ?
             `
-            <button type="button" class="btn btn-danger btn-sm" onclick="deleteNote('${note._id}')">Delete</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); deleteNote('${note._id}')">Delete</button>
             ` :
             '';
     };
 
     tag.innerHTML = ""
-    for (note of notes) {
+    for (let note of notes) {
         tag.innerHTML += `
             <div class="card">
-                <div class="card-body">
+                <a href="/note/${note._id}">
+                    <div class="card-body">
 
-                    <h4 class="card-title" style="display: inline-block;">${note.title}</h4>
+                        <h4 class="card-title" style="display: inline-block;">${note.title}</h4>
 
-                    <a href="/user/${note.user.username}">
                         <h6 class="card-subtitle text-muted"
+                        onclick="event.preventDefault(); window.location.href = '/user/${note.user.username}'"
                         style="display: inline-block;">
                         by ${note.user.username}
                         </h6>
-                    </a>
 
-                    <p class="card-text">${note.content}</p>
+                        <p class="card-text">${note.content}</p>
 
-                    <h6 class="card-text">
-                        <a href="/note/${note._id}/likes">
-                            <span>${like(note.likes)}</span>
-                        </a>
-                    </h6>
+                        <span style="display: block;">
+                            <h6 class="card-text"
+                            onclick="event.preventDefault(); window.location.href = '/note/${note._id}/likes'"
+                            style="display: inline-block;">
+                                ${like(note.likes)}
+                            </h6>
+                        </span>
 
-                    ${await likeBtn(note)}
-                    ${owner(note)}
+                        <div id="likebtns-${note._id}" style="display: inline-block;">
+                            ${await likeBtn(note)}
+                        </div>
 
-                    <h6 class="card-subtitle text-muted text-end">${note.date}</h6>
+                        ${owner(note)}
 
-                </div>
+                        <h6 class="card-subtitle text-muted text-end">${note.date}</h6>
+
+                    </div>
+                </a>
             </div>  
         `;
     };
@@ -81,7 +87,9 @@ async function likeNote(id) {
     res = await res.json();
 
     if (res.success) {
-        getNotes();
+        document.getElementById(`likebtns-${id}`).innerHTML = `
+            <button type="button" class="btn btn-secondary btn-sm" onclick="event.preventDefault(); unlikeNote('${id}')">Unlike</button>
+        `;
     } else if (res.message) {
         alert(res.message);
     };
@@ -98,7 +106,9 @@ async function unlikeNote(id) {
     res = await res.json();
 
     if (res.success) {
-        getNotes();
+        document.getElementById(`likebtns-${id}`).innerHTML = `
+            <button type="button" class="btn btn-primary btn-sm" onclick="event.preventDefault(); likeNote('${id}')">Like</button>
+        `;
     } else if (res.message) {
         alert(res.message);
     };
@@ -115,7 +125,7 @@ async function deleteNote(id) {
     res = await res.json();
 
     if (res.success) {
-        getNotes();
+        window.location.reload();
     } else if (res.message) {
         alert(res.message);
     };

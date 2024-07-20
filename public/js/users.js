@@ -14,7 +14,7 @@ async function getUsers() {
     if (res.success) {
         if (res.users.length > 0) {
             users.innerHTML = '';
-            for (user of res.users) {
+            for (let user of res.users) {
                 users.innerHTML += `
                     <div class="card">
                         <a href="/user/${user.username}">

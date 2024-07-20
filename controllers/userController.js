@@ -96,9 +96,9 @@ async function getUser(req, res) {
     const { username } = req.params;
 
     let user = await User.findOne({ username })
-        .select('-_id -__v -password')
-        .populate('following', '-_id -__v -password')
-        .populate('followers', '-_id -__v -password');
+        .select('-_id -__v -email -password')
+        .populate('following', '-_id -__v -email -password')
+        .populate('followers', '-_id -__v -email -password');
 
     if (!user) {
         return res.status(400).json({
@@ -240,8 +240,8 @@ async function removeFollower(req, res) {
 async function getUserFollowing(req, res) {
     const { username } = req.params;
     const user = await User.findOne({ username })
-        .select('-_id -__v -password')
-        .populate('following', '-_id -__v -password');
+        .select('-_id -__v -email -password')
+        .populate('following', '-_id -__v -email -password');
 
     if (!user) {
         return res.status(400).json({
@@ -259,8 +259,8 @@ async function getUserFollowing(req, res) {
 async function getUserFollowers(req, res) {
     const { username } = req.params;
     const user = await User.findOne({ username })
-        .select('-_id -__v -password')
-        .populate('followers', '-_id -__v -password');
+        .select('-_id -__v -email -password')
+        .populate('followers', '-_id -__v -email -password');
 
     if (!user) {
         return res.status(400).json({

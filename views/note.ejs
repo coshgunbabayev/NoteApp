@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/headtags") %>
+        <title>Note</title>
+</head>
+
+<body>
+    <%- include("partials/navbar") %>
+
+        <%- include("partials/mainopening") %>
+
+            <span style="display: none;" id="id">
+                <%= id %>
+            </span>
+
+            <div id="note"></div>
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Other notes
+                    </h5>
+
+                </div>
+            </div> 
+
+            <div id="notes"></div>
+
+            <%- include("partials/mainclosure") %>
+
+                <script src="/js/modules/note.js"></script>
+                <script src="/js/note.js"></script>
+</body>
+
+</html>

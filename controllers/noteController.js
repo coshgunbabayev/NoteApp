@@ -45,6 +45,41 @@ async function createNote(req, res) {
     };
 };
 
+async function getNote(req, res) {
+    let note;
+    try {
+        note = await Note.findById(req.params.id)
+            .populate('user', '-_id -password -__v -email');
+    } catch (err) {
+        return res.status(400).json({
+            success: false,
+            message: 'Note not found'
+        });
+    };
+
+    if (!note) {
+        return res.status(400).json({
+            success: false,
+            message: 'Note not found'
+        });
+    };
+
+    if (note.visibility === 'private' && note.user.username !== req.user.username) {
+        return res.status(400).json({
+            success: false,
+            message: 'Note not found'
+        });
+    };
+    
+    note = note.toObject();
+    note.isOwner = note.user.username === req.user.username
+
+    res.status(200).json({
+        success: true,
+        note
+    });
+};
+
 async function deleteNote(req, res) {
     let note;
 
@@ -53,14 +88,21 @@ async function deleteNote(req, res) {
     } catch (err) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
         });
     };
 
     if (!note) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
+        });
+    };
+
+    if (note.visibility === 'private' && !note.user.equals(req.user._id)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Note not found'
         });
     };
 
@@ -80,19 +122,26 @@ async function deleteNote(req, res) {
 
 async function isLikedNote(req, res) {
     let note;
-    try{
+    try {
         note = await Note.findById(req.params.id);
     } catch (err) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
         });
     };
 
     if (!note) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
+        });
+    };
+
+    if (note.visibility === 'private' && !note.user.equals(req.user._id)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Note not found'
         });
     };
 
@@ -104,26 +153,33 @@ async function isLikedNote(req, res) {
 
 async function likeNote(req, res) {
     let note;
-    try{
+    try {
         note = await Note.findById(req.params.id);
     } catch (err) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
         });
     };
 
     if (!note) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
+        });
+    };
+
+    if (note.visibility === 'private' && !note.user.equals(req.user._id)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Note not found'
         });
     };
 
     if (note.likes.includes(req.user._id)) {
         return res.status(400).json({
             success: false,
-            message: "You have already lik  ed this note"
+            message: 'You have already liked this note'
         });
     };
 
@@ -137,26 +193,33 @@ async function likeNote(req, res) {
 
 async function unlikeNote(req, res) {
     let note;
-    try{
+    try {
         note = await Note.findById(req.params.id);
     } catch (err) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
         });
     };
 
     if (!note) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
+        });
+    };
+
+    if (note.visibility === 'private' && !note.user.equals(req.user._id)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Note not found'
         });
     };
 
     if (!note.likes.includes(req.user._id)) {
         return res.status(400).json({
             success: false,
-            message: "You have not liked this note"
+            message: 'You have not liked this note'
         });
     };
 
@@ -171,20 +234,27 @@ async function unlikeNote(req, res) {
 
 async function getNoteLikes(req, res) {
     let note;
-    try{
+    try {
         note = await Note.findById(req.params.id)
-        .populate('likes', '-_id -__v -password');
+            .populate('likes', '-_id -__v -email -password');
     } catch (err) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
         });
     };
 
     if (!note) {
         return res.status(400).json({
             success: false,
-            message: "Note not found"
+            message: 'Note not found'
+        });
+    };
+
+    if (note.visibility === 'private' && !note.user.equals(req.user._id)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Note not found'
         });
     };
 
@@ -197,6 +267,7 @@ async function getNoteLikes(req, res) {
 export {
     getNotes,
     createNote,
+    getNote,
     deleteNote,
     isLikedNote,
     likeNote,

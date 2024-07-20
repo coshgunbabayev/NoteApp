@@ -5,6 +5,7 @@ import {
     getIndexPage,
     getAccountPage,
     getUserPage,
+    getNotePage,
     getUserFollowingPage,
     getUserFollowersPage,
     getNoteLikesPage
@@ -22,6 +23,9 @@ router.route('/account')
 
 router.route('/user/:username')
     .get(authenticateForPage, getUserPage);
+
+router.route('/note/:id')
+    .get(authenticateForPage, getNotePage);
 
 router.route('/user/:username/following')
     .get(authenticateForPage, getUserFollowingPage);

@@ -4,6 +4,7 @@ const router = new Router();
 import {
     getNotes,
     createNote,
+    getNote,
     deleteNote,
     isLikedNote,
     likeNote,
@@ -20,6 +21,7 @@ router.route('/')
     .post(authenticateForApi, createNote);
 
 router.route('/:id')
+    .get(authenticateForApi, getNote)
     .delete(authenticateForApi, deleteNote);
 
 router.route('/:id/islike')
@@ -32,6 +34,6 @@ router.route('/:id/unlike')
     .put(authenticateForApi, unlikeNote);
 
 router.route('/:id/likes')
-   .get(authenticateForApi, getNoteLikes);
+    .get(authenticateForApi, getNoteLikes);
 
 export default router;

@@ -12,6 +12,12 @@ function getUserPage(req, res) {
     });
 };
 
+function getNotePage(req, res) {
+    res.status(200).render('note', {
+        id: req.params.id
+    });
+};
+
 function getUserFollowingPage(req, res) {
     res.status(200).render('users', {
         option: 'Following',
@@ -37,6 +43,7 @@ export {
     getIndexPage,
     getAccountPage,
     getUserPage,
+    getNotePage,
     getUserFollowingPage,
     getUserFollowersPage,
     getNoteLikesPage
