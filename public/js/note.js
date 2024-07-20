@@ -97,3 +97,35 @@ async function getNote() {
         `;
     };
 }; getNote();
+
+async function getOtherNotes() {
+    let res = await fetch("/api/note", {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+
+    res = await res.json();
+
+    if (res.success) {
+        res.notes = res.notes.filter(note => note._id !== id);
+
+        if (res.notes.length) {
+            res.notes.reverse();
+            accommodateNotes(notes, res.notes);
+        } else {
+            notes.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+
+                        <p class="card-title">
+                            Not found. Be the first to note!
+                        </p>
+
+                    </div>
+                </div>
+            `;
+        }
+    };
+}; getOtherNotes();
