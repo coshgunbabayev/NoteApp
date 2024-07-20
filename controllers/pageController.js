@@ -14,7 +14,6 @@ function getUserPage(req, res) {
 
 function getUserFollowingPage(req, res) {
     res.status(200).render('users', {
-        username: req.params.username,
         option: 'Following',
         url: `/api/user/${req.params.username}/following`
     });
@@ -22,9 +21,15 @@ function getUserFollowingPage(req, res) {
 
 function getUserFollowersPage(req, res) {
     res.status(200).render('users', {
-        username: req.params.username,
         option: 'Followers',
         url: `/api/user/${req.params.username}/followers`
+    });
+};
+
+function getNoteLikesPage(req, res) {
+    res.status(200).render('users', {
+        option: 'Likes',
+        url: `/api/note/${req.params.id}/likes`
     });
 };
 
@@ -33,5 +38,6 @@ export {
     getAccountPage,
     getUserPage,
     getUserFollowingPage,
-    getUserFollowersPage
+    getUserFollowersPage,
+    getNoteLikesPage
 };

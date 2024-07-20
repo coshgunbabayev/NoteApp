@@ -169,6 +169,31 @@ async function unlikeNote(req, res) {
     });
 };
 
+async function getNoteLikes(req, res) {
+    let note;
+    try{
+        note = await Note.findById(req.params.id)
+        .populate('likes', '-_id -__v -password');
+    } catch (err) {
+        return res.status(400).json({
+            success: false,
+            message: "Note not found"
+        });
+    };
+
+    if (!note) {
+        return res.status(400).json({
+            success: false,
+            message: "Note not found"
+        });
+    };
+
+    res.status(200).json({
+        success: true,
+        users: note.likes,
+    });
+};
+
 export {
     getNotes,
     createNote,
@@ -176,4 +201,5 @@ export {
     isLikedNote,
     likeNote,
     unlikeNote,
+    getNoteLikes
 };

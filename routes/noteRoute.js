@@ -7,7 +7,8 @@ import {
     deleteNote,
     isLikedNote,
     likeNote,
-    unlikeNote
+    unlikeNote,
+    getNoteLikes
 } from '../controllers/noteController.js';
 
 import {
@@ -29,5 +30,8 @@ router.route('/:id/like')
 
 router.route('/:id/unlike')
     .put(authenticateForApi, unlikeNote);
+
+router.route('/:id/likes')
+   .get(authenticateForApi, getNoteLikes);
 
 export default router;

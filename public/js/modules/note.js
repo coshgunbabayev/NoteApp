@@ -1,5 +1,10 @@
 async function accommodateNotes(tag, notes) {
-    async function like(note) {
+    function like(likes) {
+        if (likes === null) return "no likes";
+        return `${likes.length} like${likes.length > 1 ? 's' : ''}`
+    };
+
+    async function likeBtn(note) {
         let res = await fetch(`/api/note/${note._id}/islike`, {
             method: 'GET',
             headers: {
@@ -48,7 +53,13 @@ async function accommodateNotes(tag, notes) {
 
                     <p class="card-text">${note.content}</p>
 
-                    ${await like(note)}
+                    <h6 class="card-text">
+                        <a href="/note/${note._id}/likes">
+                            <span>${like(note.likes)}</span>
+                        </a>
+                    </h6>
+
+                    ${await likeBtn(note)}
                     ${owner(note)}
 
                     <h6 class="card-subtitle text-muted text-end">${note.date}</h6>

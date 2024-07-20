@@ -6,7 +6,8 @@ import {
     getAccountPage,
     getUserPage,
     getUserFollowingPage,
-    getUserFollowersPage
+    getUserFollowersPage,
+    getNoteLikesPage
 } from '../controllers/pageController.js';
 
 import {
@@ -27,5 +28,8 @@ router.route('/user/:username/following')
 
 router.route('/user/:username/followers')
     .get(authenticateForPage, getUserFollowersPage);
+
+router.route('/note/:id/likes')
+    .get(authenticateForPage, getNoteLikesPage);
 
 export default router;
