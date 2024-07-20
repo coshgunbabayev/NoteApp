@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/headtags") %>
+        <title>
+            <%= option %>
+        </title>
+</head>
+
+<body>
+    <%- include("partials/navbar") %>
+
+        <%- include("partials/mainopening") %>
+
+            <span style="display: none;" id="url">
+                <%= url %>
+            </span>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title" id="option">
+                        <%= option %>
+                    </h4>
+                </div>
+            </div>
+
+            <div id="users"></div>
+
+            <%- include("partials/mainclosure") %>
+
+                <script src="/js/users.js"></script>
+</body>
+
+</html>

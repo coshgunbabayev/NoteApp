@@ -8,8 +8,8 @@ import {
     followUser,
     unfollowUser,
     removeFollower,
-    // getUserFollowing,
-    // getUserFollowers
+    getUserFollowing,
+    getUserFollowers,
     getUserNotes,
 } from '../controllers/userController.js';
 
@@ -35,11 +35,11 @@ router.route('/:username/unfollow')
 router.route('/:username/remove')
     .put(authenticateForApi, removeFollower);
 
-// router.route('/:username/following')
-//     .get(authenticateForApi, getUserFollowing);
+router.route('/:username/following')
+    .get(authenticateForApi, getUserFollowing);
 
-// router.route('/:username/followers')
-//     .get(authenticateForApi, getUserFollowers);
+router.route('/:username/followers')
+    .get(authenticateForApi, getUserFollowers);
 
 router.route('/:username/notes')
     .get(authenticateForApi, getUserNotes);

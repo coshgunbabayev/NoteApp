@@ -4,7 +4,10 @@ const router = new Router();
 import {
     getNotes,
     createNote,
-    deleteNote
+    deleteNote,
+    isLikedNote,
+    likeNote,
+    unlikeNote
 } from '../controllers/noteController.js';
 
 import {
@@ -17,5 +20,14 @@ router.route('/')
 
 router.route('/:id')
     .delete(authenticateForApi, deleteNote);
+
+router.route('/:id/islike')
+    .get(authenticateForApi, isLikedNote);
+
+router.route('/:id/like')
+    .put(authenticateForApi, likeNote);
+
+router.route('/:id/unlike')
+    .put(authenticateForApi, unlikeNote);
 
 export default router;

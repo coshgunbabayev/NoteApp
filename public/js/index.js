@@ -29,20 +29,3 @@ async function getNotes() {
         }
     };
 }; getNotes();
-
-async function deleteNote(id) {
-    let res = await fetch(`/api/note/${id}`, {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json"
-        },
-    })
-
-    res = await res.json();
-
-    if (res.success) {
-        getNotes();
-    } else if (res.message) {
-        alert(res.message);
-    };
-};

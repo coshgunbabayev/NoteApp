@@ -4,7 +4,9 @@ const router = new Router();
 import {
     getIndexPage,
     getAccountPage,
-    getUserPage
+    getUserPage,
+    getUserFollowingPage,
+    getUserFollowersPage
 } from '../controllers/pageController.js';
 
 import {
@@ -19,5 +21,11 @@ router.route('/account')
 
 router.route('/user/:username')
     .get(authenticateForPage, getUserPage);
+
+router.route('/user/:username/following')
+    .get(authenticateForPage, getUserFollowingPage);
+
+router.route('/user/:username/followers')
+    .get(authenticateForPage, getUserFollowersPage);
 
 export default router;

@@ -25,8 +25,6 @@ async function addSbmt() {
 
     res = await res.json();
 
-    console.log(res);
-
     if (res.success) {
         window.location.reload();
     } else {

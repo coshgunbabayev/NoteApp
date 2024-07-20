@@ -12,8 +12,26 @@ function getUserPage(req, res) {
     });
 };
 
+function getUserFollowingPage(req, res) {
+    res.status(200).render('users', {
+        username: req.params.username,
+        option: 'Following',
+        url: `/api/user/${req.params.username}/following`
+    });
+};
+
+function getUserFollowersPage(req, res) {
+    res.status(200).render('users', {
+        username: req.params.username,
+        option: 'Followers',
+        url: `/api/user/${req.params.username}/followers`
+    });
+};
+
 export {
     getIndexPage,
     getAccountPage,
-    getUserPage
+    getUserPage,
+    getUserFollowingPage,
+    getUserFollowersPage
 };

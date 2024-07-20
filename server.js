@@ -23,7 +23,9 @@ app.listen(port, () => {
 });
 
 import connection  from './database/connection.js';
+import updateDocuments from './database/update.js';
 connection();
+updateDocuments();
 
 import notify from './middlewares/notify.js';
 import pageRoute from './routes/pageRoute.js';

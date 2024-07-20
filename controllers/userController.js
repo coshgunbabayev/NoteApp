@@ -202,8 +202,6 @@ async function removeFollower(req, res) {
     const { username } = req.params;
     const user = await User.findOne({ username });
 
-    console.log("user:" + user);
-
     if (!user) {
         return res.status(400).json({
             success: false,
@@ -236,6 +234,44 @@ async function removeFollower(req, res) {
 
     res.status(200).json({
         success: true
+    });
+};
+
+async function getUserFollowing(req, res) {
+    const { username } = req.params;
+    const user = await User.findOne({ username })
+        .select('-_id -__v -password')
+        .populate('following', '-_id -__v -password');
+
+    if (!user) {
+        return res.status(400).json({
+            success: false,
+            message: 'User not found'
+        });
+    };
+
+    res.status(200).json({
+        success: true,
+        users: user.following
+    });
+};
+
+async function getUserFollowers(req, res) {
+    const { username } = req.params;
+    const user = await User.findOne({ username })
+        .select('-_id -__v -password')
+        .populate('followers', '-_id -__v -password');
+
+    if (!user) {
+        return res.status(400).json({
+            success: false,
+            message: 'User not found'
+        });
+    };
+
+    res.status(200).json({
+        success: true,
+        users: user.followers
     });
 };
 
@@ -285,5 +321,7 @@ export {
     followUser,
     unfollowUser,
     removeFollower,
-    getUserNotes
+    getUserFollowing,
+    getUserFollowers,
+    getUserNotes,
 };

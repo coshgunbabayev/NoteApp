@@ -23,7 +23,7 @@ const noteSchema = new Schema({
         type: String,
         required: [true, 'visibility area is required'],
         validate: [
-            function(value){
+            function (value) {
                 return ['public', 'private'].includes(value);
             },
             'this is not a valid visibility option'
@@ -33,7 +33,14 @@ const noteSchema = new Schema({
     date: {
         type: String,
         default: moment().format('LLL'),
-    }
+    },
+
+    likes: [
+        {
+            type: ObjectId,
+            ref: 'User',
+        }
+    ]
 });
 
 const Note = mongoose.model("Note", noteSchema);

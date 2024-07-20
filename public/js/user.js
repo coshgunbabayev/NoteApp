@@ -28,7 +28,6 @@ async function getUserDetails() {
             `;
         };
 
-
         return `
             <div class="justify-content-between align-items-center">
                 ${removeFollowerButton(user)}
@@ -63,13 +62,23 @@ async function getUserDetails() {
 
                     <br>
 
+                    <h6 class="card-text">
+                        <a href="/user/${user.username}/following">
+                            <span>${user.following.length} following</span>
+                        </a>
+                        
+                        <a href="/user/${user.username}/followers">
+                            <span>${user.followers.length} followers</span>
+                        </a>
+                    </h6>
+
                     ${setButtons(user)}
                 
                 </div>
             </div>
         `;
 
-        getUserNotes();
+        getNotes();
 
     } else if (res.message) {
         userDetails.innerHTML = `
@@ -104,7 +113,7 @@ async function follow(username) {
     };
 };
 
-async function unfollow(username){
+async function unfollow(username) {
     let res = await fetch(`/api/user/${username}/unfollow`, {
         method: 'PUT',
         headers: {
@@ -138,7 +147,7 @@ async function remove(username) {
     };
 };
 
-async function getUserNotes() {
+async function getNotes() {
     let res = await fetch(`/api/user/${username}/notes`, {
         method: 'GET',
         headers: {
@@ -165,22 +174,5 @@ async function getUserNotes() {
                 </div>
             `;
         };
-    };
-};
-
-async function deleteNote(id) {
-    let res = await fetch(`/api/note/${id}`, {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json"
-        },
-    })
-
-    res = await res.json();
-
-    if (res.success) {
-        getUserNotes();
-    } else if (res.message) {
-        alert(res.message);
     };
 };

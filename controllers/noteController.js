@@ -18,7 +18,6 @@ async function getNotes(req, res) {
 
 async function createNote(req, res) {
     try {
-        console.log(req.body);
         const { title, content, visibility } = req.body;
         const note = await Note.create({
             user: req.user._id,
@@ -79,8 +78,102 @@ async function deleteNote(req, res) {
     });
 };
 
+async function isLikedNote(req, res) {
+    let note;
+    try{
+        note = await Note.findById(req.params.id);
+    } catch (err) {
+        return res.status(400).json({
+            success: false,
+            message: "Note not found"
+        });
+    };
+
+    if (!note) {
+        return res.status(400).json({
+            success: false,
+            message: "Note not found"
+        });
+    };
+
+    res.status(200).json({
+        success: true,
+        isLiked: note.likes.includes(req.user._id)
+    });
+};
+
+async function likeNote(req, res) {
+    let note;
+    try{
+        note = await Note.findById(req.params.id);
+    } catch (err) {
+        return res.status(400).json({
+            success: false,
+            message: "Note not found"
+        });
+    };
+
+    if (!note) {
+        return res.status(400).json({
+            success: false,
+            message: "Note not found"
+        });
+    };
+
+    if (note.likes.includes(req.user._id)) {
+        return res.status(400).json({
+            success: false,
+            message: "You have already lik  ed this note"
+        });
+    };
+
+    note.likes.push(req.user._id);
+    await note.save();
+
+    res.status(200).json({
+        success: true
+    });
+};
+
+async function unlikeNote(req, res) {
+    let note;
+    try{
+        note = await Note.findById(req.params.id);
+    } catch (err) {
+        return res.status(400).json({
+            success: false,
+            message: "Note not found"
+        });
+    };
+
+    if (!note) {
+        return res.status(400).json({
+            success: false,
+            message: "Note not found"
+        });
+    };
+
+    if (!note.likes.includes(req.user._id)) {
+        return res.status(400).json({
+            success: false,
+            message: "You have not liked this note"
+        });
+    };
+
+    const index = note.likes.indexOf(req.user._id);
+    note.likes.splice(index, 1);
+    await note.save();
+
+    res.status(200).json({
+        success: true
+    });
+};
+
 export {
     getNotes,
     createNote,
     deleteNote,
+    isLikedNote,
+    likeNote,
+    unlikeNote,
 };
