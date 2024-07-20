@@ -17,17 +17,19 @@ async function getUsers() {
             for (user of res.users) {
                 users.innerHTML += `
                     <div class="card">
-                        <div class="card-body">
+                        <a href="/user/${user.username}">
+                            <div class="card-body">
 
-                            <h4 class="card-title">
-                                ${user.name} ${user.surname}
-                            </h4>
+                                <h4 class="card-title">
+                                    ${user.name} ${user.surname}
+                                </h4>
 
-                            <h6 class="card-subtitle text-muted">
-                                @${user.username}
-                            </h6>
+                                <h6 class="card-subtitle text-muted">
+                                    @${user.username}
+                                </h6>
 
-                        </div>
+                            </div>
+                        </a>
                     </div>
                 `;
             };
