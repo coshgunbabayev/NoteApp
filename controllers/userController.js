@@ -92,13 +92,27 @@ async function loginUser(req, res) {
     };
 };
 
+async function getCurrentUser(req, res) {
+    res.status(200).json({
+        success: true,
+        user: {
+            name: req.user.name,
+            surname: req.user.surname,
+            username: req.user.username,
+            email: req.user.email,
+            bio: req.user.bio,
+            profilePicture: req.user.profilePicture
+        }
+    });
+};
+
 async function getUser(req, res) {
     const { username } = req.params;
 
     let user = await User.findOne({ username })
-        .select('-_id -__v -email -password')
-        .populate('following', '-_id -__v -email -password')
-        .populate('followers', '-_id -__v -email -password');
+        .select('-_id -password -__v -email -profilePictureId')
+        .populate('following', '-_id -password -__v -email -profilePictureId')
+        .populate('followers', '-_id -password -__v -email -profilePictureId');
 
     if (!user) {
         return res.status(400).json({
@@ -240,8 +254,8 @@ async function removeFollower(req, res) {
 async function getUserFollowing(req, res) {
     const { username } = req.params;
     const user = await User.findOne({ username })
-        .select('-_id -__v -email -password')
-        .populate('following', '-_id -__v -email -password');
+        .select('-_id -password -__v -email -profilePictureId')
+        .populate('following', '-_id -password -__v -email -profilePictureId');
 
     if (!user) {
         return res.status(400).json({
@@ -259,8 +273,8 @@ async function getUserFollowing(req, res) {
 async function getUserFollowers(req, res) {
     const { username } = req.params;
     const user = await User.findOne({ username })
-        .select('-_id -__v -email -password')
-        .populate('followers', '-_id -__v -email -password');
+        .select('-_id -password -__v -email -profilePictureId')
+        .populate('followers', '-_id -password -__v -email -profilePictureId');
 
     if (!user) {
         return res.status(400).json({
@@ -293,13 +307,13 @@ async function getUserNotes(req, res) {
         notes = await Note.find({
             user: user._id,
         })
-            .populate('user', '-_id -password -__v -email');
+            .populate('user', '-_id -password -__v -email -profilePictureId');
     } else {
         notes = await Note.find({
             user: user._id,
             visibility: 'public'
         })
-            .populate('user', '-_id -password -__v -email');
+            .populate('user', '-_id -password -__v -email -profilePictureId');
     };
 
     notes = notes.map(note => {
@@ -317,6 +331,7 @@ async function getUserNotes(req, res) {
 export {
     createUser,
     loginUser,
+    getCurrentUser,
     getUser,
     followUser,
     unfollowUser,

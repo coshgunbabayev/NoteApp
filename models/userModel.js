@@ -40,6 +40,37 @@ const userSchema = new Schema({
         minLength: [8, 'password is not a valid  in length, at least 8 characters'],
     },
 
+    bio: {
+        type: String,
+        maxLength: [120, 'bio is so long, max length is 120'],
+        default: "",
+    },
+
+    profilePicture: {
+        type: String,
+        default: ''
+    },
+
+    profilePictureId: {
+        type: String,
+        default: ''
+    },
+
+    links: [
+        {
+            name: {
+                type: String,
+                required: [true, "Link's name area is required"]
+            },
+
+            url: {
+                type: String,
+                required: [true, "Link's URL area is required"],
+                validate: [validator.isURL, "This is not URL"]
+            }
+        }
+    ],
+
     following: [
         {
             type: ObjectId,

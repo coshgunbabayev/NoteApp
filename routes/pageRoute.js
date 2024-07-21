@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 const router = new Router();
 
 import {
@@ -8,7 +8,9 @@ import {
     getNotePage,
     getUserFollowingPage,
     getUserFollowersPage,
-    getNoteLikesPage
+    getNoteLikesPage,
+    getSettingsPage,
+    getProfileSettingsPage
 } from '../controllers/pageController.js';
 
 import {
@@ -35,5 +37,11 @@ router.route('/user/:username/followers')
 
 router.route('/note/:id/likes')
     .get(authenticateForPage, getNoteLikesPage);
+
+router.route('/settings')
+    .get(authenticateForPage, getSettingsPage);
+
+router.route('/settings/profile')
+    .get(authenticateForPage, getProfileSettingsPage);
 
 export default router;

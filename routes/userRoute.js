@@ -1,9 +1,10 @@
-import express, { Router } from 'express';
+import  { Router } from 'express';
 const router = new Router();
 
 import {
     createUser,
     loginUser,
+    getCurrentUser,
     getUser,
     followUser,
     unfollowUser,
@@ -22,6 +23,9 @@ router.route('/signup')
 
 router.route('/login')
     .post(loginUser);
+
+router.route('/')
+    .get(authenticateForApi, getCurrentUser);
 
 router.route('/:username')
     .get(authenticateForApi, getUser);

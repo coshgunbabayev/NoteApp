@@ -2,7 +2,7 @@ import Note from '../models/noteModel.js';
 
 async function getNotes(req, res) {
     let notes = await Note.find({ visibility: 'public' })
-        .populate('user', '-_id -password -__v -email');
+        .populate('user', '-_id -password -__v -email -profilePictureId');
 
     notes = notes.map(note => {
         const noteObj = note.toObject();
@@ -49,7 +49,7 @@ async function getNote(req, res) {
     let note;
     try {
         note = await Note.findById(req.params.id)
-            .populate('user', '-_id -password -__v -email');
+            .populate('user', '-_id -password -__v -email -profilePictureId');
     } catch (err) {
         return res.status(400).json({
             success: false,
@@ -236,7 +236,7 @@ async function getNoteLikes(req, res) {
     let note;
     try {
         note = await Note.findById(req.params.id)
-            .populate('likes', '-_id -__v -email -password');
+            .populate('likes', '-_id -password -__v -email -profilePictureId');
     } catch (err) {
         return res.status(400).json({
             success: false,

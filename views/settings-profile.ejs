@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/headtags") %>
+        <title>Edit profile</title>
+</head>
+
+<body>
+    <%- include("partials/navbar") %>
+
+        <%- include("partials/mainopening") %>
+
+            <div class="card">
+                <div class="card-body" onclick="change('userdetails')">
+                    <h5 class="card-title">User details</h5>
+                </div>
+            </div>
+
+            <div class="card" id="userdetailsDiv" style="display: none;">
+                <div class="card-body">
+
+                    <form id="userdetailsform">
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="name">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-control form-control-lg" />
+
+                            <span id="nameerror" class="error"></span>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="surname">Your Surname</label>
+                            <input type="text" id="surname" name="surname" class="form-control form-control-lg" />
+
+                            <span id="surnameerror" class="error"></span>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="username">Your Username</label>
+                            <input type="text" id="username" name="username" class="form-control form-control-lg" />
+
+                            <span id="usernameerror" class="error"></span>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="email">Your Email</label>
+                            <input type="text" id="email" name="email" class="form-control form-control-lg" />
+
+                            <span id="emailerror" class="error"></span>
+                        </div>
+
+                        <h6 class="card-subtitle text-muted text-end">
+                            <button type="submit" class="btn btn-primary" onclick="userDetailsSbmt(event)">Apply</button>
+                        </h6>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body" onclick="change('profilepicture')">
+                    <h5 class="card-title">Profile picture</h5>
+                </div>
+            </div>
+
+            <div class="card" id="profilepictureDiv" style="display: none;">
+                <div class="card-body">
+
+                    <div class="big-pp" style="background-image: url('/image/default-profile-picture.png');"></div>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" onclick="change('bio')">Bio</h5>
+                </div>
+            </div>
+
+            <div class="card" id="bioDiv" style="display: none;">
+                <div class="card-body">
+
+                    <form id="bioform">
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="bio">Your Bio</label>
+                            <input type="text" id="bio" name="bio" class="form-control form-control-lg" />
+
+                            <span id="bioerror" class="error"></span>
+                        </div>
+
+                        <h6 class="card-subtitle text-muted text-end">
+                            <button type="submit" class="btn btn-primary" onclick="bioSbmt(event)">Apply</button>
+                        </h6>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" onclick="change('links')">Links</h5>
+                </div>
+            </div>
+
+            <div class="card" id="linksDiv" style="display: none;">
+                <div class="card-body">
+
+                </div>
+            </div>
+
+            <%- include("partials/mainclosure") %>
+
+                <script src="/js/settings-profile.js"></script>
+</body>
+
+</html>

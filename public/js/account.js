@@ -31,7 +31,7 @@ function loginForm() {
             </div>
 
             <p class="text-center text-muted mt-5 mb-0">Don't have an account?
-                <button onclick="signupForm()" type="button" class="btn btn-primary btn-sm">Sign up here</button>
+                <button onclick="signupForm()" type="submit" class="btn btn-primary btn-sm">Sign up here</button>
             </p>
 
         </form>
@@ -95,7 +95,7 @@ function signupForm() {
             </div>
 
             <p class="text-center text-muted mt-5 mb-0">Have already an account?
-                <button onclick="loginForm()" type="button" class="btn btn-primary btn-sm">Login here</button>
+                <button onclick="loginForm()" type="submit" class="btn btn-primary btn-sm">Login here</button>
             </p>
 
         </form>

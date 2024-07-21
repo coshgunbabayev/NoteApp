@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/headtags") %>
+        <title>Settings</title>
+</head>
+
+<body>
+    <%- include("partials/navbar") %>
+
+        <%- include("partials/mainopening") %>
+
+            <div class="card">
+                <a href="/settings/profile">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Edit profile
+                        </h5>
+                    </div>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="/settings/password">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Reset password
+                        </h5>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="card">
+                <a href="/settings/notifications">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Notifications
+                        </h5>
+                    </div>
+                </a>
+            </div>
+
+            <%- include("partials/mainclosure") %>
+</body>
+
+</html>

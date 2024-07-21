@@ -39,6 +39,14 @@ function getNoteLikesPage(req, res) {
     });
 };
 
+function getSettingsPage(req, res) {
+    res.status(200).render('settings');
+};
+
+function getProfileSettingsPage(req, res) {
+    res.status(200).render('settings-profile');
+};
+
 export {
     getIndexPage,
     getAccountPage,
@@ -46,5 +54,7 @@ export {
     getNotePage,
     getUserFollowingPage,
     getUserFollowersPage,
-    getNoteLikesPage
+    getNoteLikesPage,
+    getSettingsPage,
+    getProfileSettingsPage
 };
