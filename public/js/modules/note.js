@@ -1,4 +1,10 @@
 async function accommodateNotes(tag, notes) {
+    function pp(profilePicture) {
+        return profilePicture ?
+            `<div class="small-pp" style="background-image: url('${profilePicture}');"></div>` :
+            `<div class="small-pp" style="background-image: url('/image/default-profile-picture.png');"></div>`
+    };
+
     function like(likes) {
         if (likes === null) return "no likes";
         return `${likes.length} like${likes.length > 1 ? 's' : ''}`
@@ -43,15 +49,19 @@ async function accommodateNotes(tag, notes) {
                 <a href="/note/${note._id}">
                     <div class="card-body">
 
-                        <h4 class="card-title" style="display: inline-block;">${note.title}</h4>
+                        ${pp(note.user.profilePicture)}
 
-                        <h6 class="card-subtitle text-muted"
-                        onclick="event.preventDefault(); window.location.href = '/user/${note.user.username}'"
-                        style="display: inline-block;">
-                        by ${note.user.username}
-                        </h6>
+                        <h4 class="card-subtitle text-muted"
+                        style="display: inline-block;"
+                        onclick="event.preventDefault(); window.location.href = '/user/${note.user.username}'">
+                        from ${note.user.username}
+                        </h4>
 
-                        <p class="card-text">${note.content}</p>
+                        <div class="note-text">
+                            <h4 class="card-title">${note.title}</h4>
+    
+                            <p class="card-text">${note.content}</p>
+                        </div>
 
                         <span style="display: block;">
                             <h6 class="card-text"

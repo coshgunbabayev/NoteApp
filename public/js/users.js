@@ -4,8 +4,8 @@ const users = document.getElementById('users');
 async function getUsers() {
     function pp(profilePicture) {
         return profilePicture ?
-            `<div class="small-pp" style="background-image: url('${profilePicture}');"></div>` :
-            `<div class="small-pp" style="background-image: url('/image/default-profile-picture.png');"></div>`
+            `<div class="medium-pp" style="background-image: url('${profilePicture}');"></div>` :
+            `<div class="medium-pp" style="background-image: url('/image/default-profile-picture.png');"></div>`
     };
     
     let res = await fetch(url, {
@@ -28,7 +28,7 @@ async function getUsers() {
 
                                     ${pp(user.profilePicture)}
 
-                                    <div style=" display: inline-block;">
+                                    <div style="display: inline-block;">
                                         <h4 class="card-title">
                                             ${user.name} ${user.surname}
                                         </h4>

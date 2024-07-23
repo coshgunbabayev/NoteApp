@@ -3,6 +3,12 @@ const noteDetails = document.getElementById('note');
 const notes = document.getElementById('notes');
 
 async function getNote() {
+    function pp(profilePicture) {
+        return profilePicture ?
+            `<div class="small-pp" style="background-image: url('${profilePicture}');"></div>` :
+            `<div class="small-pp" style="background-image: url('/image/default-profile-picture.png');"></div>`
+    };
+
     function like(likes) {
         if (likes === null) return "no likes";
         return `${likes.length} like${likes.length > 1 ? 's' : ''}`
@@ -53,19 +59,23 @@ async function getNote() {
         let note = res.note;
 
         noteDetails.innerHTML = `
-        <div class="card">
+        <div class="card note-main">
             <div class="card-body">
+
+                ${pp(note.user.profilePicture)}
+
+                <h4 class="card-subtitle text-muted"
+                style="display: inline-block;"
+                onclick="event.preventDefault(); window.location.href = '/user/${note.user.username}'">
+                from ${note.user.username}
+                </h4>
         
-                <h3 class="card-title" style="display: inline-block;">${note.title}</h3>
-        
-                <a href="/user/${note.user.username}">
-                    <h5 class="card-subtitle text-muted" style="display: inline-block;">
-                    by ${note.user.username}
-                    </h5>
-                </a>
-        
-                <p class="card-text">${note.content}</p>
-        
+                <div class="note-text">
+                    <h4 class="card-title">${note.title}</h4>
+
+                    <p class="card-text">${note.content}</p>
+                </div> 
+
                 <h6 class="card-text">
                     <a href="/note/${note._id}/likes">
                         ${like(note.likes)}
