@@ -51,7 +51,8 @@
                         </div>
 
                         <h6 class="card-subtitle text-muted text-end">
-                            <button type="submit" class="btn btn-primary" onclick="userDetailsSbmt(event)">Apply</button>
+                            <button type="submit" class="btn btn-primary"
+                                onclick="userDetailsSbmt(event)">Apply</button>
                         </h6>
 
                     </form>
@@ -68,7 +69,25 @@
             <div class="card" id="profilepictureDiv" style="display: none;">
                 <div class="card-body">
 
-                    <div class="big-pp" style="background-image: url('/image/default-profile-picture.png');"></div>
+                    <div class="big-pp" id="currentprofilepicture"
+                        style="background-image: url('/image/default-profile-picture.png');"></div>
+
+                    <form id="profilepictureform">
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="profilepicture">New Profile Picture</label>
+                            <input type="file" id="profilepicture" name="profilepicture"
+                                class="form-control form-control-lg" />
+
+                            <span id="profilepictureerror" class="error"></span>
+                        </div>
+
+                        <h6 class="card-subtitle text-muted text-end">
+                            <button type="submit" class="btn btn-primary"
+                                onclick="profilePictureSbmt(event)">Apply</button>
+                        </h6>
+
+                    </form>
 
                 </div>
             </div>

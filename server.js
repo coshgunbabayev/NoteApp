@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import { v2 as cloudinary } from 'cloudinary';
 
 dotenv.config()
 
@@ -17,6 +18,13 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_SECRET,
+    secure: true
+});
 
 app.listen(port, () => {
     console.log(`server is listening on port ${port}`);

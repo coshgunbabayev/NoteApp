@@ -15,7 +15,7 @@ async function getUserInfo() {
         document.getElementById('username').value = user.username;
         document.getElementById('email').value = user.email;
 
-        // if (res.user.profilePicture) {
+        // if (res.user.profilePicture) { currentprofilepicture
         //     document.getElementById('profilepicture').src = res.user.profilePicture;
         // } else {
         //     document.getElementById('profilepicture').src = '/images/default-profile-picture.jpg';
@@ -46,7 +46,7 @@ function change(selected) {
 
 async function userDetailsSbmt(event) {
     event.preventDefault();
-    
+
     const keys = ['name', 'surname', 'username', 'email'];
 
     keys.forEach(key => {
@@ -81,7 +81,37 @@ async function userDetailsSbmt(event) {
     };
 };
 
-async function profilePictureSbmt(event) {};
+async function profilePictureSbmt(event) {
+    event.preventDefault();
+
+    const keys = ['profilepicture'];
+
+    keys.forEach(key => {
+        document.getElementById(key).style.borderColor = "#ced4da";
+        document.getElementById(`${key}error`).innerText = "";
+    });
+
+    const form = document.getElementById("profilepictureform");
+    const formData = new FormData(form);
+
+    let res = await fetch('/api/settings/profilepicture', {
+        method: 'PUT',
+        body: formData
+    });
+
+    res = await res.json();
+
+    console.log(res);
+
+    if (res.success) {
+        window.location.reload();
+    } else {
+        Object.keys(res.errors).forEach(key => {
+            document.getElementById(`${key}error`).innerText = res.errors[key];
+            document.getElementById(key).style.borderColor = "rgb(255, 0, 0)";
+        });
+    };
+};
 
 async function bioSbmt(event) {
     event.preventDefault();
@@ -92,7 +122,7 @@ async function bioSbmt(event) {
         document.getElementById(key).style.borderColor = "#ced4da";
         document.getElementById(`${key}error`).innerText = "";
     });
-    
+
     const form = document.getElementById("bioform");
 
     let res = await fetch('/api/settings/bio', {
