@@ -15,11 +15,12 @@ async function getUserInfo() {
         document.getElementById('username').value = user.username;
         document.getElementById('email').value = user.email;
 
-        // if (res.user.profilePicture) { currentprofilepicture
-        //     document.getElementById('profilepicture').src = res.user.profilePicture;
-        // } else {
-        //     document.getElementById('profilepicture').src = '/images/default-profile-picture.jpg';
-        // }
+        if (res.user.profilePicture) { currentprofilepicture
+            document.getElementById('currentprofilepicture').style.backgroundImage = `url('${user.profilePicture}')`;
+            document.getElementById('currentprofilepictureDiv').style.display= 'block';
+        } else {
+            document.getElementById('currentprofilepicture').style.backgroundImage = '/images/default-profile-picture.jpg';
+        };
 
         document.getElementById('bio').value = user.bio;
     } else {
@@ -81,6 +82,23 @@ async function userDetailsSbmt(event) {
     };
 };
 
+async function profilePictureDelete() {
+    let res = await fetch('/api/settings/profilepicture', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    res = await res.json();
+
+    if (res.success) {
+        window.location.reload();
+    } else {
+        alert(res.message);
+    };
+};
+
 async function profilePictureSbmt(event) {
     event.preventDefault();
 
@@ -100,8 +118,6 @@ async function profilePictureSbmt(event) {
     });
 
     res = await res.json();
-
-    console.log(res);
 
     if (res.success) {
         window.location.reload();

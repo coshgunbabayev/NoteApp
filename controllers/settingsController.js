@@ -78,7 +78,22 @@ async function updateUserProfilePicture(req, res) {
         });
     };
 
-    console.log(Boolean(req.user.profilepicture));
+    if (req.user.profilePicture) {
+        await cloudinary.uploader.destroy(req.user.profilePictureId);
+
+        await User.findByIdAndUpdate(
+            req.user._id,
+            {
+                profilePicture: '',
+                profilePictureId: '',
+            },
+            {
+                new: true,
+                runValidators: true,
+                context: 'query',
+            }
+        );
+    };
 
     const result = await cloudinary.uploader.upload(
         req.file.path, {
@@ -90,18 +105,46 @@ async function updateUserProfilePicture(req, res) {
         if (err) return console.error(err.message);
     });
 
-    // await User.findByIdAndUpdate(
-    //     req.user._id,
-    //     {
-    //         profilePicture: result.secure_url,
-    //         profilePictureId: result.public_id,
-    //     },
-    //     {
-    //         new: true,
-    //         runValidators: true,
-    //         context: 'query',
-    //     }
-    // );
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            profilePicture: result.secure_url,
+            profilePictureId: result.public_id,
+        },
+        {
+            new: true,
+            runValidators: true,
+            context: 'query',
+        }
+    );
+
+    res.status(200).json({
+        success: true
+    });
+};
+
+async function deleteUserProfilePicture(req, res) {
+    if (!req.user.profilePicture) {
+        return res.status(400).json({
+            success: false,
+            message: 'User profile picture not found'
+        });
+    };
+
+    await cloudinary.uploader.destroy(req.user.profilePictureId);
+
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            profilePicture: '',
+            profilePictureId: '',
+        },
+        {
+            new: true,
+            runValidators: true,
+            context: 'query',
+        }
+    );
 
     res.status(200).json({
         success: true
@@ -146,5 +189,6 @@ async function updateUserBio(req, res) {
 export {
     updateUserDetails,
     updateUserProfilePicture,
+    deleteUserProfilePicture,
     updateUserBio
 };
