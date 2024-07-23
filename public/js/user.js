@@ -3,6 +3,12 @@ const userDetails = document.getElementById("userdetails");
 const notes = document.getElementById("notes");
 
 async function getUserDetails() {
+    function pp(profilePicture) {
+        return profilePicture ?
+            `<div class="big-pp" style="background-image: url('${profilePicture}');"></div>` :
+            `<div class="big-pp" style="background-image: url('/image/default-profile-picture.png');"></div>`
+    };
+
     function setButtons(user) {
         if (user.isMatch) {
             return '';
@@ -51,6 +57,8 @@ async function getUserDetails() {
         userDetails.innerHTML = `
             <div class="card">
                 <div class="card-body">
+
+                    ${pp(user.profilePicture)}
 
                     <h4 class="card-title">
                         ${user.name} ${user.surname}

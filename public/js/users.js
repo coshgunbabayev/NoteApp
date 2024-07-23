@@ -2,6 +2,12 @@ const url = document.getElementById('url').innerText.trim();
 const users = document.getElementById('users');
 
 async function getUsers() {
+    function pp(profilePicture) {
+        return profilePicture ?
+            `<div class="small-pp" style="background-image: url('${profilePicture}');"></div>` :
+            `<div class="small-pp" style="background-image: url('/image/default-profile-picture.png');"></div>`
+    };
+    
     let res = await fetch(url, {
         method: 'GET',
         headers: {
@@ -20,13 +26,17 @@ async function getUsers() {
                         <a href="/user/${user.username}">
                             <div class="card-body">
 
-                                <h4 class="card-title">
-                                    ${user.name} ${user.surname}
-                                </h4>
+                                    ${pp(user.profilePicture)}
 
-                                <h6 class="card-subtitle text-muted">
-                                    @${user.username}
-                                </h6>
+                                    <div style=" display: inline-block;">
+                                        <h4 class="card-title">
+                                            ${user.name} ${user.surname}
+                                        </h4>
+    
+                                        <h6 class="card-subtitle text-muted">
+                                            @${user.username}
+                                        </h6>
+                                    </div>
 
                             </div>
                         </a>

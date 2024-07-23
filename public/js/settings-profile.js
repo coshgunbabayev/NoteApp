@@ -19,7 +19,7 @@ async function getUserInfo() {
             document.getElementById('currentprofilepicture').style.backgroundImage = `url('${user.profilePicture}')`;
             document.getElementById('currentprofilepictureDiv').style.display= 'block';
         } else {
-            document.getElementById('currentprofilepicture').style.backgroundImage = '/images/default-profile-picture.jpg';
+            document.getElementById('currentprofilepicture').style.backgroundImage = '/image/default-profile-picture.png';
         };
 
         document.getElementById('bio').value = user.bio;
