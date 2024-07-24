@@ -5,7 +5,8 @@ import {
     updateUserDetails,
     updateUserProfilePicture,
     deleteUserProfilePicture,
-    updateUserBio
+    updateUserBio,
+    updateUserPassword
 } from '../controllers/settingsController.js';
 
 import {
@@ -23,5 +24,8 @@ router.route('/profilepicture')
 
 router.route('/bio')
     .put(authenticateForApi, updateUserBio);
+
+router.route('/password')
+    .put(authenticateForApi, updateUserPassword);
 
 export default router;

@@ -47,6 +47,10 @@ function getProfileSettingsPage(req, res) {
     res.status(200).render('settings-profile');
 };
 
+function getPasswordSettingsPage(req, res) {
+    res.status(200).render('settings-password');
+};
+
 export {
     getIndexPage,
     getAccountPage,
@@ -56,5 +60,6 @@ export {
     getUserFollowersPage,
     getNoteLikesPage,
     getSettingsPage,
-    getProfileSettingsPage
+    getProfileSettingsPage,
+    getPasswordSettingsPage
 };

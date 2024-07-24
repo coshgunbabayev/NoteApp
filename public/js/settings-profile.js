@@ -29,7 +29,7 @@ async function getUserInfo() {
 };
 getUserInfo();
 
-const keys = ['userdetails', 'profilepicture', 'bio', 'links'];
+const keys = ['userdetails', 'profilepicture', 'bio'];
 
 function change(selected) {
     if (document.getElementById(`${selected}Div`).style.display === 'none') {

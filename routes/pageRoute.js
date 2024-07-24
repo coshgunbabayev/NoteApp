@@ -10,7 +10,8 @@ import {
     getUserFollowersPage,
     getNoteLikesPage,
     getSettingsPage,
-    getProfileSettingsPage
+    getProfileSettingsPage,
+    getPasswordSettingsPage
 } from '../controllers/pageController.js';
 
 import {
@@ -43,5 +44,8 @@ router.route('/settings')
 
 router.route('/settings/profile')
     .get(authenticateForPage, getProfileSettingsPage);
+
+router.route('/settings/password')
+    .get(authenticateForPage, getPasswordSettingsPage);
 
 export default router;

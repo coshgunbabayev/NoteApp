@@ -4,18 +4,7 @@ async function updateDocuments() {
     // try {
     //     const documents = await User.find({});
     //     for (let doc of documents) {
-    //         // if (!doc.bio) {
-    //         //     doc.bio = '';
-    //         // };
-    //         if (!doc.profilePicture) {
-    //             doc.profilePicture = '';
-    //         };
-    //         if (!doc.profilePictureId) {
-    //             doc.profilePictureId = '';
-    //         };
-    //         if (!doc.links) {
-    //             doc.links = [];
-    //         };
+    //         delete doc.links
     //         await doc.save();
     //     };
     //     console.log('All documentation updated');

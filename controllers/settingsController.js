@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
+import bcrypt from 'bcryptjs';
 
 import User from '../models/userModel.js';
 
@@ -59,7 +60,7 @@ async function updateUserProfilePicture(req, res) {
             success: false,
             errors: {
                 profilepicture:
-                    'Profile picture area is required'
+                    'profile picture area is required'
             }
         });
     };
@@ -73,7 +74,7 @@ async function updateUserProfilePicture(req, res) {
             success: false,
             errors: {
                 profilepicture:
-                    'Profile picture size should not exceed 20MB, try other image'
+                    'profile picture size should not exceed 20MB, try other image'
             }
         });
     };
@@ -186,9 +187,88 @@ async function updateUserBio(req, res) {
     };
 };
 
+async function updateUserPassword(req, res) {
+    const { password, newPassword, repeatNewPassword } = req.body;
+    let errors = new Object();
+
+    if (!Boolean(password) || !Boolean(newPassword) || !Boolean(repeatNewPassword)) {
+        if (!Boolean(password)) {
+            errors.password = 'password area is required';
+        };
+
+        if (!Boolean(newPassword)) {
+            errors.newPassword = 'new password area is required';
+        };
+
+        if (!Boolean(repeatNewPassword)) {
+            errors.repeatNewPassword = 'repeat new password area is required';
+        };
+
+        return res.status(400).json({
+            success: false,
+            errors
+        });
+    };
+
+    if (newPassword !== repeatNewPassword) {
+        errors.repeatNewPassword = 'passwords do not match';
+
+        return res.status(400).json({
+            success: false,
+            errors
+        });
+    };
+
+    if (!await bcrypt.compare(password, req.user.password)) {
+        errors.password = 'current password is incorrect';
+
+        return res.status(400).json({
+            success: false,
+            errors
+        });
+    };
+
+    try {
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await User.findByIdAndUpdate(
+            req.user._id,
+            {
+                password: hashedPassword
+            },
+            {
+                new: true,
+                runValidators: true,
+                context: 'query',
+            }
+        );
+
+        res.status(200).json({
+            success: true
+        });
+    } catch (err) {
+        if (err.name === "ValidationError") {
+            if (err.errors.password) {
+                errors.password = err.errors.password.message;
+
+                return res.status(400).json({
+                    success: false,
+                    errors
+                });
+            };
+
+            return res.status(400).json({
+                success: false,
+                errors
+            });
+        };
+    };
+};
+
 export {
     updateUserDetails,
     updateUserProfilePicture,
     deleteUserProfilePicture,
-    updateUserBio
+    updateUserBio,
+    updateUserPassword
 };

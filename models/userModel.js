@@ -56,21 +56,6 @@ const userSchema = new Schema({
         default: ''
     },
 
-    links: [
-        {
-            name: {
-                type: String,
-                required: [true, "Link's name area is required"]
-            },
-
-            url: {
-                type: String,
-                required: [true, "Link's URL area is required"],
-                validate: [validator.isURL, "This is not URL"]
-            }
-        }
-    ],
-
     following: [
         {
             type: ObjectId,

@@ -24,8 +24,7 @@ async function authenticateForApi(req, res, next) {
 
     let user;
     try {
-        user = await User.findById(decoded.userId)
-            .select("-password");
+        user = await User.findById(decoded.userId);
     } catch (err) {
         return res.status(400).json({
             success: false,
@@ -60,8 +59,7 @@ async function authenticateForPage(req, res, next) {
 
     let user;
     try {
-        user = await User.findById(decoded.userId)
-            .select("-password");
+        user = await User.findById(decoded.userId);
     } catch (err) {
         return res.redirect('/account');
     }
