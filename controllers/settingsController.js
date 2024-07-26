@@ -124,6 +124,7 @@ async function updateUserProfilePicture(req, res) {
             success: true
         });
     } catch (err) {
+        console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",err);
         res.status(400).json({
             success: false,
             errors: {
