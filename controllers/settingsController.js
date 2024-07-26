@@ -53,40 +53,65 @@ async function updateUserDetails(req, res) {
 };
 
 async function updateUserProfilePicture(req, res) {
-    const profilePicture = req.file;
+    try {
+        const profilePicture = req.file;
 
-    if (!profilePicture) {
-        return res.status(400).json({
-            success: false,
-            errors: {
-                profilepicture:
-                    'profile picture area is required'
-            }
+        if (!profilePicture) {
+            return res.status(400).json({
+                success: false,
+                errors: {
+                    profilepicture:
+                        'profile picture area is required'
+                }
+            });
+        };
+
+        if (profilePicture.size > 20 * 1024 * 1024) {
+            fs.unlink(profilePicture.path, (err) => {
+                if (err) return console.error(err.message);
+            });
+
+            return res.status(400).json({
+                success: false,
+                errors: {
+                    profilepicture:
+                        'profile picture size should not exceed 20MB, try other image'
+                }
+            });
+        };
+
+        if (req.user.profilePicture) {
+            await cloudinary.uploader.destroy(req.user.profilePictureId);
+
+            await User.findByIdAndUpdate(
+                req.user._id,
+                {
+                    profilePicture: '',
+                    profilePictureId: '',
+                },
+                {
+                    new: true,
+                    runValidators: true,
+                    context: 'query',
+                }
+            );
+        };
+
+        const result = await cloudinary.uploader.upload(
+            req.file.path, {
+            use_filename: true,
+            folder: process.env.CLOUD_FOLDER_NAME
         });
-    };
 
-    if (profilePicture.size > 20 * 1024 * 1024) {
-        fs.unlink(profilePicture.path, (err) => {
+        fs.unlink(req.file.path, (err) => {
             if (err) return console.error(err.message);
         });
-
-        return res.status(400).json({
-            success: false,
-            errors: {
-                profilepicture:
-                    'profile picture size should not exceed 20MB, try other image'
-            }
-        });
-    };
-
-    if (req.user.profilePicture) {
-        await cloudinary.uploader.destroy(req.user.profilePictureId);
 
         await User.findByIdAndUpdate(
             req.user._id,
             {
-                profilePicture: '',
-                profilePictureId: '',
+                profilePicture: result.secure_url,
+                profilePictureId: result.public_id,
             },
             {
                 new: true,
@@ -94,34 +119,19 @@ async function updateUserProfilePicture(req, res) {
                 context: 'query',
             }
         );
-    };
 
-    const result = await cloudinary.uploader.upload(
-        req.file.path, {
-        use_filename: true,
-        folder: process.env.CLOUD_FOLDER_NAME
-    });
-
-    fs.unlink(req.file.path, (err) => {
-        if (err) return console.error(err.message);
-    });
-
-    await User.findByIdAndUpdate(
-        req.user._id,
-        {
-            profilePicture: result.secure_url,
-            profilePictureId: result.public_id,
-        },
-        {
-            new: true,
-            runValidators: true,
-            context: 'query',
-        }
-    );
-
-    res.status(200).json({
-        success: true
-    });
+        res.status(200).json({
+            success: true
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            errors: {
+                profilepicture:
+                    'fuck'
+            }
+        });
+    }
 };
 
 async function deleteUserProfilePicture(req, res) {
