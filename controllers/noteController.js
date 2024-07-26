@@ -1,4 +1,5 @@
 import Note from '../models/noteModel.js';
+import Notification from '../models/notificationModel.js';
 
 async function getNotes(req, res) {
     let notes = await Note.find({ visibility: 'public' })
@@ -70,7 +71,7 @@ async function getNote(req, res) {
             message: 'Note not found'
         });
     };
-    
+
     note = note.toObject();
     note.isOwner = note.user.username === req.user.username
 
@@ -185,6 +186,18 @@ async function likeNote(req, res) {
 
     note.likes.push(req.user._id);
     await note.save();
+
+    console.log(!note.user._id.equals(req.user._id));
+
+    if (!note.user._id.equals(req.user._id)) {
+        await Notification.create({
+            sender: req.user._id,
+            recipient: note.user._id,
+            type: 'like',
+            targetType: 'Note',
+            targetId: note._id
+        });
+    };
 
     res.status(200).json({
         success: true

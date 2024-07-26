@@ -39,9 +39,11 @@ import notify from './middlewares/notify.js';
 import pageRoute from './routes/pageRoute.js';
 import userRoute from './routes/userRoute.js';
 import noteRoute from './routes/noteRoute.js';
+import notificationsRoute from './routes/notificationsRoute.js';
 import settingsRoute from './routes/settingsRoute.js';
 
 app.use('/',notify, pageRoute);
 app.use('/api/user',notify, userRoute);
 app.use('/api/note',notify, noteRoute);
+app.use('/api/notifications',notify, notificationsRoute);
 app.use('/api/settings',notify, settingsRoute);

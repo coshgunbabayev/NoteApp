@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 
 import User from '../models/userModel.js';
 import Note from '../models/noteModel.js';
+import Notification from '../models/notificationModel.js';
 import { createTokenForLogin } from '../token/create.js';
 
 async function createUser(req, res) {
@@ -167,10 +168,17 @@ async function followUser(req, res) {
     user.followers.push(req.user._id);
     await user.save();
 
+    await Notification.create({
+        sender: rUser._id,
+        recipient: user._id,
+        type: 'follow',
+        targetType: 'User',
+        targetId: user._id
+    });
+
     res.status(200).json({
         success: true
     });
-
 };
 
 async function unfollowUser(req, res) {
