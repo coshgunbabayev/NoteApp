@@ -26,6 +26,19 @@ async function getNotifications(req, res) {
     });
 };
 
+async function readAllNotifications(req, res) {
+    const notifications = await Notification.updateMany(
+        {
+            recipient: req.user._id,
+            read: false
+        },
+        {
+            read: true
+        }
+    );
+};
+
 export {
-    getNotifications
+    getNotifications,
+    readAllNotifications
 };

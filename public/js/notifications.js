@@ -22,9 +22,9 @@ async function getNotifications() {
     };
 
     function text(type) {
-        if (type === 'follow') return 'followed you';
-        if (type === 'like') return 'liked your note';
-        if (type === 'note') return 'shared new note';
+        if (type === 'follow') return 'followed you.';
+        if (type === 'like') return 'liked your note.';
+        if (type === 'note') return 'shared new note.';
     };
 
     let res = await fetch('/api/notifications', {
@@ -36,10 +36,9 @@ async function getNotifications() {
 
     res = await res.json();
 
-    console.log(res);
-
     if (res.success) {
         notifications.innerHTML = '';
+        res.notifications.reverse();
         for (let notification of res.notifications) {
             notifications.innerHTML += `
                 <div class="card">
@@ -56,13 +55,26 @@ async function getNotifications() {
                             </h5>
 
                             <p class="card-text" style="display: inline-block;">${text(notification.type)}</p>
+
+                            <p class="card-subtitle text-muted text-end" style="float: right;">${notification.date}</p>
                         </div>    
 
                     </div>
                 </div>
             `;
         };
+
+        readAll();
     };
 };
 
 getNotifications();
+
+async function readAll() {
+    let res = await fetch('/api/notifications/read', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+};

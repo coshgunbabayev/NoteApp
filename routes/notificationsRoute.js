@@ -2,7 +2,8 @@ import  { Router } from 'express';
 const router = new Router();
 
 import {
-    getNotifications
+    getNotifications,
+    readAllNotifications
 } from '../controllers/notificationsController.js';
 
 import {
@@ -11,5 +12,8 @@ import {
 
 router.route('/')
     .get(authenticateForApi, getNotifications);
+
+router.route('/read')
+    .put(authenticateForApi, readAllNotifications)
 
 export default router;
