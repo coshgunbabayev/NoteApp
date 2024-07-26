@@ -2,19 +2,21 @@ import Notification from '../models/notificationModel.js';
 
 async function getNotifications(req, res) {
     const selectFields = {
-        User: '-_id -password -__v -email -profilePictureId',
+        User: '-_id -password -__v -email -profilePictureId -following -followers',
         Note: '-user -likes'
     };
 
     let notifications = await Notification.find({
         recipient: req.user._id
     })
-        .populate('sender', '-_id -password -__v -email -profilePictureId')
-        .populate('recipient', '-_id -password -__v -email -profilePictureId');
+        .populate('sender', '-_id -password -__v -email -profilePictureId -following -followers')
+        .populate('recipient', '-_id -password -__v -email -profilePictureId -following -followers');
 
     notifications = await Promise.all(
-        notifications.map(notification => {
-            notification.populate('target', selectFields[notification.targetType]);
+        notifications.map(async notification => {
+            await notification.populate('target', selectFields[notification.targetType]);
+            console.log(notification.targetType);
+            return notification
         })
     );
 

@@ -173,7 +173,7 @@ async function followUser(req, res) {
         recipient: user._id,
         type: 'follow',
         targetType: 'User',
-        targetId: user._id
+        target: rUser._id
     });
 
     res.status(200).json({

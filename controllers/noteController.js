@@ -187,15 +187,13 @@ async function likeNote(req, res) {
     note.likes.push(req.user._id);
     await note.save();
 
-    console.log(!note.user._id.equals(req.user._id));
-
     if (!note.user._id.equals(req.user._id)) {
         await Notification.create({
             sender: req.user._id,
             recipient: note.user._id,
             type: 'like',
             targetType: 'Note',
-            targetId: note._id
+            target: note._id
         });
     };
 

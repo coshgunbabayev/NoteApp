@@ -9,6 +9,7 @@ import {
     getUserFollowingPage,
     getUserFollowersPage,
     getNoteLikesPage,
+    getNotificationsPage,
     getSettingsPage,
     getProfileSettingsPage,
     getPasswordSettingsPage
@@ -38,6 +39,9 @@ router.route('/user/:username/followers')
 
 router.route('/note/:id/likes')
     .get(authenticateForPage, getNoteLikesPage);
+
+router.route('/notifications')
+    .get(authenticateForPage, getNotificationsPage);
 
 router.route('/settings')
     .get(authenticateForPage, getSettingsPage);
