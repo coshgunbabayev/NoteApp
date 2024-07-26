@@ -54,7 +54,7 @@ async function accommodateNotes(tag, notes) {
                         <h4 class="card-subtitle text-muted"
                         style="display: inline-block;"
                         onclick="event.preventDefault(); window.location.href = '/user/${note.user.username}'">
-                        from ${note.user.username}
+                        from @${note.user.username}
                         </h4>
 
                         <div class="note-text">

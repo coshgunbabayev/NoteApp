@@ -1,6 +1,32 @@
 const notifications = document.getElementById('notifications');
 
 async function getNotifications() {
+    function url(notification) {
+        if (notification.targetType === 'User') {
+            return `/user/${notification.target.username}`;
+        } else if (notification.targetType === 'Note') {
+            return `/note/${notification.target._id}`;
+        };
+    };
+
+    function color(read) {
+        return read ? 
+        '' :
+        `style="background-color: rgb(205, 243, 243);"`;
+    };
+
+    function isNew(read) {
+        return read?
+        '' :
+        `<span class="card-text">New</span>`;
+    };
+
+    function text(type) {
+        if (type === 'follow') return 'followed you';
+        if (type === 'like') return 'liked your note';
+        if (type === 'note') return 'shared new note';
+    };
+
     let res = await fetch('/api/notifications', {
         method: 'GET',
         headers: {
@@ -10,11 +36,33 @@ async function getNotifications() {
 
     res = await res.json();
 
-    console.log(res.notifications);
+    console.log(res);
 
-    // if (res.success) {
-        
-    // };
+    if (res.success) {
+        notifications.innerHTML = '';
+        for (let notification of res.notifications) {
+            notifications.innerHTML += `
+                <div class="card">
+                <a href="${url(notification)}">
+                    <div class="card-body" ${color(notification.read)}>
+
+                        ${isNew(notification.read)}
+
+                        <div>
+                            <h5  class="card-subtitle"
+                            style="display: inline-block;"
+                            onclick="event.preventDefault(); window.location.href = '/user/${notification.sender.username}'">
+                            @${notification.sender.username}
+                            </h5>
+
+                            <p class="card-text" style="display: inline-block;">${text(notification.type)}</p>
+                        </div>    
+
+                    </div>
+                </div>
+            `;
+        };
+    };
 };
 
 getNotifications();
