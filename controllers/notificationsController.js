@@ -38,7 +38,20 @@ async function readAllNotifications(req, res) {
     );
 };
 
+async function getUnreadNotificationsCount(req, res) {
+    const count = await Notification.countDocuments({
+        recipient: req.user._id,
+        read: false
+    });
+
+    res.json({
+        success: true,
+        count
+    });
+};
+
 export {
     getNotifications,
-    readAllNotifications
+    readAllNotifications,
+    getUnreadNotificationsCount
 };
