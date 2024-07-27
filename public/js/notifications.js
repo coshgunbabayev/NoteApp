@@ -39,25 +39,40 @@ async function getNotifications() {
     if (res.success) {
         notifications.innerHTML = '';
         res.notifications.reverse();
-        for (let notification of res.notifications) {
-            notifications.innerHTML += `
+        if (res.notifications.length > 0) {
+            for (let notification of res.notifications) {
+                notifications.innerHTML += `
+                    <div class="card">
+                        <a href="${url(notification)}">
+                            <div class="card-body" ${color(notification.read)}>
+    
+                                ${isNew(notification.read)}
+    
+                                <div>
+                                    <h5  class="card-subtitle"
+                                    style="display: inline-block;"
+                                    onclick="event.preventDefault(); window.location.href = '/user/${notification.sender.username}'">
+                                    @${notification.sender.username}
+                                    </h5>
+                
+                                    <p class="card-text" style="display: inline-block;">${text(notification.type)}</p>
+                
+                                    <p class="card-subtitle text-muted text-end" style="float: right;">${notification.date}</p>
+                                </div>    
+    
+                            </div>
+                        </a>
+                    </div>
+                `;
+            };
+        } else {
+            notifications.innerHTML = `
                 <div class="card">
-                <a href="${url(notification)}">
-                    <div class="card-body" ${color(notification.read)}>
+                    <div class="card-body">
 
-                        ${isNew(notification.read)}
-
-                        <div>
-                            <h5  class="card-subtitle"
-                            style="display: inline-block;"
-                            onclick="event.preventDefault(); window.location.href = '/user/${notification.sender.username}'">
-                            @${notification.sender.username}
-                            </h5>
-
-                            <p class="card-text" style="display: inline-block;">${text(notification.type)}</p>
-
-                            <p class="card-subtitle text-muted text-end" style="float: right;">${notification.date}</p>
-                        </div>    
+                        <p class="card-title">
+                            Not found notifications
+                        </p>
 
                     </div>
                 </div>

@@ -70,8 +70,6 @@ async function getUserDetails() {
 
                     <p class="card-text">${user.bio}</p>
 
-                    <br>
-
                     <h6 class="card-text">
                         <a href="/user/${user.username}/following">
                             <span>${user.following.length} following</span>
