@@ -68,6 +68,8 @@ async function getUserDetails() {
                         @${user.username}
                     </h6>
 
+                    <p class="card-text">${user.bio}</p>
+
                     <br>
 
                     <h6 class="card-text">
