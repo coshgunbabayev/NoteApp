@@ -8,12 +8,18 @@ import { createTokenForLogin } from '../token/create.js';
 async function createUser(req, res) {
     try {
         const { name, surname, username, email, password } = req.body;
+
+        let hashedPassword = '';
+        if (password && password.length > 7) {
+            hashedPassword = await bcrypt.hash(password, 10);
+        };
+
         const user = await User.create({
             name,
             surname,
             username,
             email,
-            password
+            password: hashedPassword
         });
 
         res.status(201).json({

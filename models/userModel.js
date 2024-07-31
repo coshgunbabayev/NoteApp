@@ -71,15 +71,6 @@ const userSchema = new Schema({
     ],
 });
 
-userSchema.pre("save", function (next) {
-    const user = this;
-    bcrypt.hash(user.password, 10, (err, hash) => {
-        if (err) return console.log(err.message);
-        user.password = hash;
-        next();
-    });
-});
-
 const User = mongoose.model("User", userSchema);
 
 export default User;
